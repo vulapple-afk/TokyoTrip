@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京五日遊行程 (導航與頂端固定版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #e0f2fe; /* Tailwind blue-50 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Fixed to viewport */
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 400px; /* Mobile size */
+            height: 95vh; /* Take up most of the screen */
+            max-height: 850px;
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            border: 2px solid #bae6fd; /* border-blue-200 */
+            display: flex;
+            flex-direction: column;
+        }
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #3b82f6;
+            position: absolute;
+            left: -8px;
+            top: 6px;
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 16px;
+            bottom: -24px;
+            width: 2px;
+            background-color: #bfdbfe;
+            z-index: 0;
+        }
+        .last-line {
+            display: none;
+        }
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-active {
+            background-color: white;
+            color: #1d4ed8;
+            font-weight: 700;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .tab-inactive {
+            color: #dbeafe;
+        }
+        
+        /* 讓每日內容獨立滾動，實現標題凍結 */
+        .day-content {
+            display: none;
+            flex-grow: 1;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        /* 自訂細長捲軸，更像 App 體驗 */
+        .day-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .day-content::-webkit-scrollbar-thumb {
+            background-color: #93c5fd;
+            border-radius: 10px;
+        }
+        .day-content::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .day-content.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eff6ff; /* blue-50 */
+            color: #2563eb; /* blue-600 */
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid #bfdbfe; /* blue-200 */
+            transition: all 0.2s;
+            margin-left: 6px;
+            white-space: nowrap;
+        }
+        .map-btn:hover {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1d4ed8; /* blue-700 */
+        }
+        .map-btn svg {
+            width: 12px;
+            height: 12px;
+            margin-right: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Tab Navigation (Frozen at the top) -->
+        <div class="bg-blue-600 pt-4 px-2 pb-2 shadow-md z-20 flex-shrink-0">
+            <h1 class="text-center text-white font-black text-xl mb-3 flex justify-center items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                東京五日遊
+            </h1>
+            <div class="flex justify-between items-center bg-blue-700 rounded-xl p-1 tabs-container space-x-1">
+                <button onclick="switchDay('day1')" id="tab-day1" class="tab-btn tab-active flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200">Day 1</button>
+                <button onclick="switchDay('day2')" id="tab-day2" class="tab-btn tab-inactive flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200 hover:bg-blue-500">Day 2</button>
+                <button onclick="switchDay('day3')" id="tab-day3" class="tab-btn tab-inactive flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200 hover:bg-blue-500">Day 3</button>
+                <button onclick="switchDay('day4')" id="tab-day4" class="tab-btn tab-inactive flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200 hover:bg-blue-500">Day 4</button>
+                <button onclick="switchDay('day5')" id="tab-day5" class="tab-btn tab-inactive flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200 hover:bg-blue-500">Day 5</button>
+            </div>
+        </div>
+
+        <!-- ================= DAY 1 ================= -->
+        <div id="day1" class="day-content active">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 p-6 text-white relative overflow-hidden shrink-0">
+                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="bg-blue-800 bg-opacity-40 px-3 py-1 rounded-full text-sm font-bold">6/08 (週一)</span>
+                </div>
+                <h2 class="text-2xl font-black mt-2 tracking-wide">抵達東京・淺草</h2>
+                <p class="text-blue-100 text-sm mt-1">Taiwan ➔ Tokyo</p>
+            </div>
+
+            <div class="p-6 shrink-0">
+                <div class="pl-2">
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">02:00</div>
+                            <div class="ml-2">
+                                <div class="font-bold text-gray-800 text-base">機場接送上車</div>
+                                <div class="text-xs text-gray-500 mt-1">新北市汐止區</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">06:45</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">搭乘 TR866 航班</div>
+                                <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
+                                    ✈️ 桃園國際機場 (T2)
+                                    <a href="https://www.google.com/maps/search/?api=1&query=桃園國際機場第二航廈" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">11:15</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">抵達成田機場</div>
+                                <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
+                                    🇯🇵 成田國際機場 T1
+                                    <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場第一航廈" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">13:30</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">飯店寄放行李</div>
+                                <div class="mt-1 flex items-center flex-wrap gap-y-2">
+                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded font-medium border border-blue-100">海茵娜飯店 東京淺草田原町</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=海茵娜飯店+東京淺草田原町" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        導航
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">14:30</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">淺草寺與雷門</div>
+                                <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
+                                    🏮 逛街、吃小吃、參拜
+                                    <a href="https://www.google.com/maps/search/?api=1&query=淺草寺" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="timeline-line last-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">18:00</div>
+                            <div class="ml-2">
+                                <div class="font-bold text-gray-800 text-base">回飯店休息</div>
+                                <div class="text-xs text-gray-500 mt-1">🛌 辦理入住手續</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Railway Route -->
+            <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
+                <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                    成田機場 ➔ 飯店交通建議
+                </h3>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div><div class="w-0.5 h-8 bg-blue-300"></div></div>
+                        <div class="pb-2">成田T1 <span class="text-[10px] text-white bg-blue-500 px-1.5 py-0.5 rounded ml-1">京成SkyAccess特急</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full z-10"></div><div class="w-0.5 h-8 bg-orange-300"></div></div>
+                        <div class="pb-2">淺草站 <span class="text-[10px] text-gray-400">(站內轉乘)</span> <span class="text-[10px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div></div>
+                        <div class="pb-1">田原町站 <span class="text-[10px] text-gray-500">➔ 步行3分至飯店</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= DAY 2 ================= -->
+        <div id="day2" class="day-content">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 p-6 text-white relative overflow-hidden shrink-0">
+                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="bg-blue-800 bg-opacity-40 px-3 py-1 rounded-full text-sm font-bold">6/09 (週二)</span>
+                </div>
+                <h2 class="text-2xl font-black mt-2 tracking-wide">秋葉原動漫與美食</h2>
+            </div>
+
+            <div class="p-6 shrink-0">
+                <div class="pl-2">
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">10:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
+                                    秋葉原逛街
+                                    <a href="https://www.google.com/maps/search/?api=1&query=秋葉原車站" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        地圖
+                                    </a>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">🎮 動漫、電器、扭蛋店巡禮</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">12:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">午餐時間</div>
+                                <div class="mt-2 space-y-2">
+                                    <div class="text-xs text-gray-700 bg-gray-50 border border-gray-200 p-2 rounded shadow-sm">
+                                        <span class="font-bold block mb-1">餐廳推薦 (可二擇一)：</span>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex justify-between items-center border-b border-gray-200 pb-1">
+                                                <span>牛かつもと村 (炸牛排)</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=牛かつもと村+秋葉原店" target="_blank" class="map-btn m-0 bg-white">導航</a>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span>肉屋の量売り食堂 聽屋</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=肉屋の量売り食堂+聽屋+秋葉原" target="_blank" class="map-btn m-0 bg-white">導航</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="timeline-line last-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">下午</div>
+                            <div class="ml-2">
+                                <div class="font-bold text-gray-800 text-base">自由時間</div>
+                                <div class="text-xs text-gray-500 mt-1">🛍️ 繼續血拼或探索周邊區域</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
+                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 小提醒</h3>
+                <p class="text-xs text-gray-600">秋葉原中央通假日會有「步行者天國」（封街禁行車輛），逛街非常舒服，記得盡情拍照！</p>
+            </div>
+        </div>
+
+        <!-- ================= DAY 3 ================= -->
+        <div id="day3" class="day-content">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 p-6 text-white relative overflow-hidden shrink-0">
+                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="bg-blue-800 bg-opacity-40 px-3 py-1 rounded-full text-sm font-bold">6/10 (週三)</span>
+                </div>
+                <h2 class="text-2xl font-black mt-2 tracking-wide">築地海鮮與澀谷夜景</h2>
+            </div>
+
+            <div class="p-6 shrink-0">
+                <div class="pl-2">
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">08:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
+                                    築地市場
+                                    <a href="https://www.google.com/maps/search/?api=1&query=築地市場" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                        Map
+                                    </a>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">🍣 享用生魚片、玉子燒等道地早午餐</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line border-dashed"></div>
+                        <div class="timeline-dot border-gray-300 bg-gray-100"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-gray-400 font-black text-sm pt-1">白天</div>
+                            <div class="ml-2 mt-1">
+                                <div class="text-xs text-gray-400">移動與市區彈性逛街行程</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">17:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
+                                    澀谷 SKY
+                                    <a href="https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                        Map
+                                    </a>
+                                </div>
+                                <div class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 font-medium border border-blue-100 inline-block">SHIBUYA SKY 展望台</div>
+                                <div class="text-xs text-gray-500 mt-1">🌆 欣賞絕美夕陽與東京百萬夜景</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="timeline-line last-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">19:30</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">晚餐：極品燒肉</div>
+                                <div class="mt-2 space-y-2">
+                                    <div class="text-xs text-gray-700 bg-gray-50 border border-gray-200 p-2 rounded shadow-sm">
+                                        <span class="font-bold block mb-1">名店推薦 (可二擇一)：</span>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex justify-between items-center border-b border-gray-200 pb-1">
+                                                <span>敘敘苑 澀谷店</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=敘敘苑+澀谷店" target="_blank" class="map-btn m-0 bg-white">導航</a>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span>六歌仙 (新宿/澀谷周邊)</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=六歌仙+燒肉" target="_blank" class="map-btn m-0 bg-white">導航</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
+                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 預約提醒</h3>
+                <p class="text-xs text-gray-600">澀谷 SKY 日落時段非常熱門，建議務必提前在網路上買好票；高級燒肉店也建議先訂位唷！</p>
+            </div>
+        </div>
+
+        <!-- ================= DAY 4 ================= -->
+        <div id="day4" class="day-content">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 p-6 text-white relative overflow-hidden shrink-0">
+                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="bg-blue-800 bg-opacity-40 px-3 py-1 rounded-full text-sm font-bold">6/11 (週四)</span>
+                </div>
+                <h2 class="text-2xl font-black mt-2 tracking-wide">鎌倉近郊一日遊</h2>
+            </div>
+
+            <div class="p-6 flex-grow flex flex-col items-center shrink-0">
+                <div class="w-20 h-20 bg-blue-50 rounded-full flex justify-center items-center mb-4 shrink-0">
+                    <svg class="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">全天：鎌倉自由探索</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed text-center">
+                    搭乘復古的江之電<br>
+                    欣賞湘南海岸風光、參拜大佛<br>
+                    以及朝聖經典平交道！
+                </p>
+                
+                <div class="bg-white border border-blue-100 rounded-xl p-4 w-full shadow-sm text-left">
+                    <h4 class="font-bold text-blue-800 text-sm mb-3">推薦景點路線</h4>
+                    <ul class="text-xs text-gray-600 space-y-3">
+                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉站 (小町通/鶴岡八幡宮)</span>
+                            <a href="https://www.google.com/maps/search/?api=1&query=鎌倉站" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 長谷站 (高德院鎌倉大佛)</span>
+                            <a href="https://www.google.com/maps/search/?api=1&query=高德院+大佛" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉高校前 (知名平交道)</span>
+                            <a href="https://www.google.com/maps/search/?api=1&query=鎌倉高校前車站" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 江之島 (夕陽海景/神社)</span>
+                            <a href="https://www.google.com/maps/search/?api=1&query=江之島" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
+                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 交通小撇步</h3>
+                <p class="text-xs text-gray-600">從新宿出發，建議購買「江之島−鎌倉周遊券」，包含新宿往返車票，還可無限次搭乘江之電，非常划算！</p>
+            </div>
+        </div>
+
+        <!-- ================= DAY 5 ================= -->
+        <div id="day5" class="day-content">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-700 p-6 text-white relative overflow-hidden shrink-0">
+                <div class="absolute top-[-20px] right-[-20px] w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="bg-blue-800 bg-opacity-40 px-3 py-1 rounded-full text-sm font-bold">6/12 (週五)</span>
+                </div>
+                <h2 class="text-2xl font-black mt-2 tracking-wide">滿載而歸</h2>
+                <p class="text-blue-100 text-sm mt-1">Tokyo ➔ Taiwan</p>
+            </div>
+
+            <div class="p-6 shrink-0">
+                <div class="pl-2">
+                    <div class="relative pl-6 pb-10">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot border-gray-300 bg-gray-100"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-gray-500 font-black text-lg pt-0.5">白天</div>
+                            <div class="ml-2">
+                                <div class="font-bold text-gray-800 text-base">自由時間</div>
+                                <div class="text-xs text-gray-500 mt-1">🛍️ 飯店退房後，周邊最後採買或享用美食</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">18:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
+                                    準備報到
+                                    <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場" target="_blank" class="map-btn">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                        機場地圖
+                                    </a>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">成田國際機場</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-6">
+                        <div class="timeline-line last-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">21:15</div>
+                            <div class="ml-2">
+                                <div class="font-bold text-gray-800 text-base">搭乘 TR875 航班</div>
+                                <div class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 font-medium border border-blue-100 inline-block">平安歸國 🇹🇼</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
+                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 回程提醒</h3>
+                <p class="text-xs text-gray-600">搭車前往機場前，請確認行李重量是否符合免稅/託運標準；若有購買免稅品，也請預留機場安檢與通關的時間唷！</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript for Tab Switching -->
+    <script>
+        function switchDay(selectedDayId) {
+            const days = document.querySelectorAll('.day-content');
+            days.forEach(day => {
+                day.classList.remove('active');
+            });
+
+            const selectedDay = document.getElementById(selectedDayId);
+            if(selectedDay) {
+                selectedDay.classList.add('active');
+                // 切換時讓捲軸回到最上方
+                selectedDay.scrollTop = 0;
+            }
+
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('tab-inactive', 'hover:bg-blue-500');
+            });
+
+            const activeTab = document.getElementById('tab-' + selectedDayId);
+            if(activeTab) {
+                activeTab.classList.remove('tab-inactive', 'hover:bg-blue-500');
+                activeTab.classList.add('tab-active');
+            }
+        }
+    </script>
+</body>
+</html>
