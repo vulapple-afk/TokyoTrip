@@ -314,6 +314,7 @@
                     </div>
                 </div>
 
+                <!-- Day 1 交通 -->
                 <div class="bg-blue-50 p-4 border-t border-blue-100 mt-auto shrink-0 mx-4 mb-4 rounded-xl">
                     <h3 class="text-blue-800 font-bold text-xs mb-2 flex items-center">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
@@ -389,12 +390,14 @@
                                 <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm">午餐時間 (擇一)</div>
                                     <div class="mt-2 space-y-2 text-[11px]">
-                                        <div class="bg-gray-50 border border-gray-100 p-2 rounded">
+                                        <div class="bg-gray-50 border border-gray-100 p-2 rounded shadow-sm">
                                             <div class="flex justify-between items-center mb-1">
                                                 <span class="font-bold">牛かつもと村</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=牛かつもと村+秋葉原店" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
                                             </div>
                                             <div class="flex justify-between items-center">
                                                 <span class="font-bold">肉屋の量売り食堂 聽屋</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=肉屋の量売り食堂+聽屋+秋葉原" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
                                             </div>
                                         </div>
                                     </div>
@@ -491,8 +494,11 @@
                             <div class="timeline-dot"></div>
                             <div class="flex items-start">
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">17:00</div>
-                                <div class="ml-2 w-full">
-                                    <div class="font-bold text-gray-800 text-sm">澀谷 SKY</div>
+                                <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm flex items-center flex-wrap gap-y-1">
+                                        澀谷 SKY
+                                        <a href="https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY" target="_blank" class="map-btn py-0.5 px-2">地圖</a>
+                                    </div>
                                     <div class="text-[11px] text-gray-500 mt-0.5">欣賞夕陽與百萬夜景</div>
                                 </div>
                             </div>
@@ -504,12 +510,16 @@
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">19:30</div>
                                 <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm">極品燒肉 (擇一)</div>
-                                    <div class="mt-2 text-[11px] bg-gray-50 border border-gray-100 p-2 rounded">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <span class="font-bold">敘敘苑 澀谷店</span>
-                                        </div>
-                                        <div class="flex justify-between items-center">
-                                            <span class="font-bold">六歌仙 (新宿/澀谷)</span>
+                                    <div class="mt-2 space-y-2 text-[11px]">
+                                        <div class="bg-gray-50 border border-gray-100 p-2 rounded shadow-sm">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <span class="font-bold">敘敘苑 澀谷店</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=敘敘苑+澀谷店" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="font-bold">六歌仙 (新宿/澀谷)</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=六歌仙+燒肉" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -830,7 +840,6 @@
 
     <!-- JavaScript 邏輯與即時天氣擷取 -->
     <script>
-        // 天氣預報配置
         const weatherDataConfig = [
             { id: 'day1', date: '2026-06-08', region: 'tokyo', name: '東京・淺草', url: 'https://tenki.jp/forecast/3/16/4410/' },
             { id: 'day2', date: '2026-06-09', region: 'tokyo', name: '東京・秋葉原', url: 'https://tenki.jp/forecast/3/16/4410/' },
@@ -839,7 +848,6 @@
             { id: 'day5', date: '2026-06-12', region: 'tokyo', name: '東京市區', url: 'https://tenki.jp/forecast/3/16/4410/' }
         ];
 
-        // 天氣代碼轉換
         function getWeatherInfo(wmoCode) {
             if (wmoCode === 0) return { emoji: '☀️', text: '晴天' };
             if (wmoCode === 1 || wmoCode === 2) return { emoji: '🌤️', text: '晴時多雲' };
@@ -853,10 +861,8 @@
             return { emoji: '🌡️', text: '多雲' };
         }
 
-        // 獲取即時天氣資料 (Open-Meteo 為免費即時源，並加上 tenki.jp 導向)
         async function fetchAllWeather() {
             try {
-                // 抓取最大 16 天預報
                 const [resTokyo, resKama] = await Promise.all([
                     fetch('https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16'),
                     fetch('https://api.open-meteo.com/v1/forecast?latitude=35.3192&longitude=139.5467&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16')
@@ -870,7 +876,6 @@
                     const container = document.getElementById(`weather-${config.id}`);
 
                     if (dateIndex !== -1) {
-                        // 時間在預報範圍內，顯示即時天氣
                         const code = apiData.daily.weathercode[dateIndex];
                         const tempMax = Math.round(apiData.daily.temperature_2m_max[dateIndex]);
                         const tempMin = Math.round(apiData.daily.temperature_2m_min[dateIndex]);
@@ -891,7 +896,6 @@
                             </div>
                         `;
                     } else {
-                        // 時間過遠，顯示尚未取得資料，並附上 tenki.jp 連結
                         container.innerHTML = `
                             <div class="flex items-center">
                                 <span class="text-2xl mr-3 drop-shadow-md opacity-60">⏳</span>
@@ -908,7 +912,6 @@
                     }
                 });
             } catch (e) {
-                // 若網路異常等情況
                 weatherDataConfig.forEach(config => {
                     const container = document.getElementById(`weather-${config.id}`);
                     if(container) {
@@ -929,7 +932,6 @@
             }
         }
 
-        // 頁面載入後自動抓取天氣
         document.addEventListener('DOMContentLoaded', () => {
             fetchAllWeather();
         });
