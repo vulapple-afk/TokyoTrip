@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東京五日遊行程 (導航與頂端固定版)</title>
+    <title>東京五日遊行程 (導航與每日交通版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Fixed to viewport */
+            height: 100vh;
             margin: 0;
             padding: 10px;
             box-sizing: border-box;
@@ -21,13 +21,13 @@
         .app-container {
             width: 100%;
             max-width: 400px; /* Mobile size */
-            height: 95vh; /* Take up most of the screen */
+            height: 95vh;
             max-height: 850px;
             background-color: #ffffff;
             border-radius: 24px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             overflow: hidden;
-            border: 2px solid #bae6fd; /* border-blue-200 */
+            border: 2px solid #bae6fd;
             display: flex;
             flex-direction: column;
         }
@@ -67,8 +67,6 @@
         .tab-inactive {
             color: #dbeafe;
         }
-        
-        /* 讓每日內容獨立滾動，實現標題凍結 */
         .day-content {
             display: none;
             flex-grow: 1;
@@ -76,8 +74,6 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-        
-        /* 自訂細長捲軸，更像 App 體驗 */
         .day-content::-webkit-scrollbar {
             width: 5px;
         }
@@ -88,7 +84,6 @@
         .day-content::-webkit-scrollbar-track {
             background-color: transparent;
         }
-
         .day-content.active {
             display: flex;
             animation: fadeIn 0.3s ease-in-out;
@@ -101,21 +96,21 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background-color: #eff6ff; /* blue-50 */
-            color: #2563eb; /* blue-600 */
+            background-color: #eff6ff;
+            color: #2563eb;
             padding: 4px 8px;
             border-radius: 9999px;
             font-size: 0.7rem;
             font-weight: 600;
             text-decoration: none;
-            border: 1px solid #bfdbfe; /* blue-200 */
+            border: 1px solid #bfdbfe;
             transition: all 0.2s;
             margin-left: 6px;
             white-space: nowrap;
         }
         .map-btn:hover {
-            background-color: #dbeafe; /* blue-100 */
-            color: #1d4ed8; /* blue-700 */
+            background-color: #dbeafe;
+            color: #1d4ed8;
         }
         .map-btn svg {
             width: 12px;
@@ -132,7 +127,7 @@
         <div class="bg-blue-600 pt-4 px-2 pb-2 shadow-md z-20 flex-shrink-0">
             <h1 class="text-center text-white font-black text-xl mb-3 flex justify-center items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                東京五日遊測試測試測試
+                東京五日遊
             </h1>
             <div class="flex justify-between items-center bg-blue-700 rounded-xl p-1 tabs-container space-x-1">
                 <button onclick="switchDay('day1')" id="tab-day1" class="tab-btn tab-active flex-1 py-2 text-xs text-center rounded-lg transition-all duration-200">Day 1</button>
@@ -177,8 +172,7 @@
                                 <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
                                     ✈️ 桃園國際機場 (T2)
                                     <a href="https://www.google.com/maps/search/?api=1&query=桃園國際機場第二航廈" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        Map
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> Map
                                     </a>
                                 </div>
                             </div>
@@ -194,8 +188,7 @@
                                 <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
                                     🇯🇵 成田國際機場 T1
                                     <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場第一航廈" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        Map
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> Map
                                     </a>
                                 </div>
                             </div>
@@ -209,10 +202,9 @@
                             <div class="ml-2 w-full pr-2">
                                 <div class="font-bold text-gray-800 text-base">飯店寄放行李</div>
                                 <div class="mt-1 flex items-center flex-wrap gap-y-2">
-                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded font-medium border border-blue-100">海茵娜飯店 東京淺草田原町</span>
+                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded font-medium border border-blue-100">海茵娜飯店 淺草田原町</span>
                                     <a href="https://www.google.com/maps/search/?api=1&query=海茵娜飯店+東京淺草田原町" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        導航
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> 導航
                                     </a>
                                 </div>
                             </div>
@@ -228,8 +220,7 @@
                                 <div class="text-xs text-gray-500 mt-1 flex items-center flex-wrap gap-y-2">
                                     🏮 逛街、吃小吃、參拜
                                     <a href="https://www.google.com/maps/search/?api=1&query=淺草寺" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        Map
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> Map
                                     </a>
                                 </div>
                             </div>
@@ -249,7 +240,7 @@
                 </div>
             </div>
 
-            <!-- Railway Route -->
+            <!-- Railway Route Day 1 -->
             <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
                 <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
@@ -284,6 +275,19 @@
 
             <div class="p-6 shrink-0">
                 <div class="pl-2">
+                    <!-- 出發點 -->
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">09:30</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">從飯店出發</div>
+                                <div class="text-xs text-gray-500 mt-1">🏨 海茵娜飯店 淺草田原町</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="relative pl-6 pb-8">
                         <div class="timeline-line"></div>
                         <div class="timeline-dot"></div>
@@ -293,8 +297,7 @@
                                 <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
                                     秋葉原逛街
                                     <a href="https://www.google.com/maps/search/?api=1&query=秋葉原車站" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        地圖
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> 地圖
                                     </a>
                                 </div>
                                 <div class="text-xs text-gray-500 mt-1">🎮 動漫、電器、扭蛋店巡禮</div>
@@ -340,9 +343,22 @@
                 </div>
             </div>
             
+            <!-- Railway Route Day 2 -->
             <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
-                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 小提醒</h3>
-                <p class="text-xs text-gray-600">秋葉原中央通假日會有「步行者天國」（封街禁行車輛），逛街非常舒服，記得盡情拍照！</p>
+                <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    飯店 ➔ 秋葉原 交通建議
+                </h3>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-8 bg-orange-300"></div></div>
+                        <div class="pb-2">田原町站 <span class="text-[10px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div></div>
+                        <div class="pb-1">末廣町站 <span class="text-[10px] text-gray-500">➔ 步行約 5 分鐘抵達秋葉原</span></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -358,6 +374,19 @@
 
             <div class="p-6 shrink-0">
                 <div class="pl-2">
+                    <!-- 出發點 -->
+                    <div class="relative pl-6 pb-6">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">07:30</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">從飯店出發</div>
+                                <div class="text-xs text-gray-500 mt-1">🏨 準備空腹出門吃海鮮！</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="relative pl-6 pb-8">
                         <div class="timeline-line"></div>
                         <div class="timeline-dot"></div>
@@ -367,8 +396,7 @@
                                 <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
                                     築地市場
                                     <a href="https://www.google.com/maps/search/?api=1&query=築地市場" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                                        Map
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> Map
                                     </a>
                                 </div>
                                 <div class="text-xs text-gray-500 mt-1">🍣 享用生魚片、玉子燒等道地早午餐</div>
@@ -396,8 +424,7 @@
                                 <div class="font-bold text-gray-800 text-base flex items-center flex-wrap gap-y-1">
                                     澀谷 SKY
                                     <a href="https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY" target="_blank" class="map-btn">
-                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                                        Map
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> Map
                                     </a>
                                 </div>
                                 <div class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 font-medium border border-blue-100 inline-block">SHIBUYA SKY 展望台</div>
@@ -433,9 +460,36 @@
                 </div>
             </div>
             
+            <!-- Railway Route Day 3 -->
             <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
-                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 預約提醒</h3>
-                <p class="text-xs text-gray-600">澀谷 SKY 日落時段非常熱門，建議務必提前在網路上買好票；高級燒肉店也建議先訂位唷！</p>
+                <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    交通轉乘指南
+                </h3>
+                <div class="space-y-3">
+                    <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                        <div class="font-bold text-gray-700 mb-2 text-xs border-b pb-1">出發 ➔ 築地市場</div>
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2 h-2 bg-gray-400 rounded-full"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
+                            <div class="pb-1 text-xs">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1 py-0.5 rounded ml-1">銀座線</span></div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2 h-2 bg-white border-2 border-slate-400 rounded-full z-10"></div><div class="w-0.5 h-6 bg-slate-300"></div></div>
+                            <div class="pb-1 text-xs">銀座站轉乘 <span class="text-[9px] text-white bg-slate-400 px-1 py-0.5 rounded ml-1">日比谷線</span></div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div></div>
+                            <div class="pb-0 text-xs">築地站 <span class="text-[9px] text-gray-500">➔ 步行即達</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                        <div class="font-bold text-gray-700 mb-2 text-xs border-b pb-1">回程 (澀谷 ➔ 飯店)</div>
+                        <div class="flex items-center text-xs text-gray-600">
+                            澀谷站直達田原町站 <span class="text-[9px] text-white bg-orange-500 px-1 py-0.5 rounded mx-1">銀座線</span> (約35分，免轉車)
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -449,43 +503,79 @@
                 <h2 class="text-2xl font-black mt-2 tracking-wide">鎌倉近郊一日遊</h2>
             </div>
 
-            <div class="p-6 flex-grow flex flex-col items-center shrink-0">
-                <div class="w-20 h-20 bg-blue-50 rounded-full flex justify-center items-center mb-4 shrink-0">
-                    <svg class="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div class="p-6 flex-grow flex flex-col shrink-0">
+                <!-- 出發點 -->
+                <div class="relative pl-6 pb-6 border-b border-gray-100 mb-4">
+                    <div class="timeline-line hidden"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="flex items-start">
+                        <div class="w-14 text-blue-700 font-black text-lg pt-0.5">08:00</div>
+                        <div class="ml-2 w-full pr-2">
+                            <div class="font-bold text-gray-800 text-base">從飯店出發</div>
+                            <div class="text-xs text-gray-500 mt-1">前往新宿站搭乘小田急線出發</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">全天：鎌倉自由探索</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed text-center">
-                    搭乘復古的江之電<br>
-                    欣賞湘南海岸風光、參拜大佛<br>
-                    以及朝聖經典平交道！
-                </p>
-                
-                <div class="bg-white border border-blue-100 rounded-xl p-4 w-full shadow-sm text-left">
-                    <h4 class="font-bold text-blue-800 text-sm mb-3">推薦景點路線</h4>
-                    <ul class="text-xs text-gray-600 space-y-3">
-                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
-                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉站 (小町通/鶴岡八幡宮)</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=鎌倉站" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
-                        </li>
-                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
-                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 長谷站 (高德院鎌倉大佛)</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=高德院+大佛" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
-                        </li>
-                        <li class="flex items-center justify-between border-b border-gray-100 pb-2">
-                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉高校前 (知名平交道)</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=鎌倉高校前車站" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
-                        </li>
-                        <li class="flex items-center justify-between">
-                            <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 江之島 (夕陽海景/神社)</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=江之島" target="_blank" class="map-btn m-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>導航</a>
-                        </li>
-                    </ul>
+
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex justify-center items-center mb-3 shrink-0">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">全天：鎌倉自由探索</h3>
+                    <p class="text-gray-500 text-xs mb-4 leading-relaxed text-center">
+                        搭乘復古的江之電<br>
+                        欣賞湘南海岸風光、參拜大佛<br>
+                        以及朝聖經典平交道！
+                    </p>
+                    
+                    <div class="bg-white border border-blue-100 rounded-xl p-4 w-full shadow-sm text-left">
+                        <h4 class="font-bold text-blue-800 text-sm mb-3">推薦景點路線</h4>
+                        <ul class="text-xs text-gray-600 space-y-3">
+                            <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                                <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉站 (小町通/八幡宮)</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鎌倉站" target="_blank" class="map-btn m-0">導航</a>
+                            </li>
+                            <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                                <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 長谷站 (鎌倉大佛)</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=高德院+大佛" target="_blank" class="map-btn m-0">導航</a>
+                            </li>
+                            <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                                <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 鎌倉高校前 (平交道)</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鎌倉高校前車站" target="_blank" class="map-btn m-0">導航</a>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span> 江之島 (夕陽/神社)</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=江之島" target="_blank" class="map-btn m-0">導航</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
+            <!-- Railway Route Day 4 -->
             <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
-                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 交通小撇步</h3>
-                <p class="text-xs text-gray-600">從新宿出發，建議購買「江之島−鎌倉周遊券」，包含新宿往返車票，還可無限次搭乘江之電，非常划算！</p>
+                <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    前往鎌倉 交通建議
+                </h3>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
+                        <div class="pb-1 text-xs">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1 py-0.5 rounded ml-1">銀座線</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-white border-2 border-orange-600 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-500"></div></div>
+                        <div class="pb-1 text-xs">神田站轉乘 <span class="text-[9px] text-white bg-orange-600 px-1 py-0.5 rounded ml-1">JR中央線</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-white border-2 border-blue-600 rounded-full z-10"></div><div class="w-0.5 h-6 bg-blue-300"></div></div>
+                        <div class="pb-1 text-xs">新宿站 <span class="text-[9px] text-gray-500">購買「江之島-鎌倉周遊券」</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div></div>
+                        <div class="pb-0 text-xs">搭乘 <span class="text-[9px] text-white bg-blue-600 px-1 py-0.5 rounded mx-1">小田急線</span> 至藤澤/片瀨江之島</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -502,14 +592,27 @@
 
             <div class="p-6 shrink-0">
                 <div class="pl-2">
-                    <div class="relative pl-6 pb-10">
+                    <!-- 出發點 -->
+                    <div class="relative pl-6 pb-8">
                         <div class="timeline-line"></div>
-                        <div class="timeline-dot border-gray-300 bg-gray-100"></div>
+                        <div class="timeline-dot"></div>
                         <div class="flex items-start">
-                            <div class="w-14 text-gray-500 font-black text-lg pt-0.5">白天</div>
-                            <div class="ml-2">
-                                <div class="font-bold text-gray-800 text-base">自由時間</div>
-                                <div class="text-xs text-gray-500 mt-1">🛍️ 飯店退房後，周邊最後採買或享用美食</div>
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">10:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">飯店退房 & 寄放行李</div>
+                                <div class="text-xs text-gray-500 mt-1">🏨 白天自由時間，周邊最後採買或享用美食</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-6 pb-8">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="flex items-start">
+                            <div class="w-14 text-blue-700 font-black text-lg pt-0.5">17:00</div>
+                            <div class="ml-2 w-full pr-2">
+                                <div class="font-bold text-gray-800 text-base">飯店領取行李出發</div>
+                                <div class="text-xs text-gray-500 mt-1">🧳 準備搭車前往機場</div>
                             </div>
                         </div>
                     </div>
@@ -527,7 +630,7 @@
                                         機場地圖
                                     </a>
                                 </div>
-                                <div class="text-xs text-gray-500 mt-1">成田國際機場</div>
+                                <div class="text-xs text-gray-500 mt-1">成田國際機場 T1</div>
                             </div>
                         </div>
                     </div>
@@ -546,9 +649,26 @@
                 </div>
             </div>
             
+            <!-- Railway Route Day 5 -->
             <div class="bg-blue-50 p-5 border-t border-blue-100 mt-auto shrink-0">
-                <h3 class="text-blue-800 font-bold text-sm mb-1">💡 回程提醒</h3>
-                <p class="text-xs text-gray-600">搭車前往機場前，請確認行李重量是否符合免稅/託運標準；若有購買免稅品，也請預留機場安檢與通關的時間唷！</p>
+                <h3 class="text-blue-800 font-bold text-sm mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    飯店 ➔ 成田機場 交通建議
+                </h3>
+                <div class="bg-white rounded-lg p-3 shadow-sm border border-blue-100 text-sm">
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-8 bg-orange-300"></div></div>
+                        <div class="pb-2 text-xs">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full z-10"></div><div class="w-0.5 h-8 bg-blue-300"></div></div>
+                        <div class="pb-2 text-xs">淺草站 <span class="text-[9px] text-gray-400">(站外轉乘/步行3分)</span> <span class="text-[9px] text-white bg-blue-500 px-1.5 py-0.5 rounded ml-1">都營淺草線直通</span></div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center mr-2 mt-1"><div class="w-2.5 h-2.5 bg-blue-600 rounded-full z-10"></div></div>
+                        <div class="pb-1 text-xs">成田機場 T1 <span class="text-[9px] text-gray-500">➔ 準備報到掛行李</span></div>
+                    </div>
+                </div>
             </div>
         </div>
 
