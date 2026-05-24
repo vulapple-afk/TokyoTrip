@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>東京五日遊</title>
+    <title>東京五日遊 (最終完美完整版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -26,24 +26,15 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
         
-        /* 自訂細長捲軸 */
         .custom-scroll {
             overflow-y: auto;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
-        .custom-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 10px;
-        }
-        .custom-scroll::-webkit-scrollbar-track {
-            background-color: transparent;
-        }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-track { background-color: transparent; }
 
-        /* 視圖切換動畫 */
         .view-content {
             display: none;
             flex-direction: column;
@@ -60,30 +51,17 @@
             to { opacity: 1; }
         }
 
-        /* 行程天數標籤樣式 */
-        .day-tabs::-webkit-scrollbar {
-            display: none;
-        }
+        .day-tabs::-webkit-scrollbar { display: none; }
         .day-tab-active {
-            background-color: white;
-            color: #2563eb;
-            font-weight: 700;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: white; color: #2563eb; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .day-tab-inactive { color: #dbeafe; }
 
-        /* 行程時間軸樣式 */
         .day-pane {
-            display: none;
-            flex-grow: 1;
-            flex-direction: column;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-bottom: 90px; 
+            display: none; flex-grow: 1; flex-direction: column; overflow-y: auto; overflow-x: hidden; padding-bottom: 90px; 
         }
         .day-pane.active {
-            display: flex;
-            animation: slideUp 0.3s ease-out;
+            display: flex; animation: slideUp 0.3s ease-out;
         }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(10px); }
@@ -91,94 +69,39 @@
         }
 
         .timeline-dot {
-            width: 14px;
-            height: 14px;
-            background-color: #3b82f6;
-            border-radius: 50%;
-            border: 3px solid #ffffff;
-            box-shadow: 0 0 0 2px #3b82f6;
-            position: absolute;
-            left: -7px;
-            top: 6px;
-            z-index: 10;
+            width: 14px; height: 14px; background-color: #3b82f6; border-radius: 50%; border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #3b82f6; position: absolute; left: -7px; top: 6px; z-index: 10;
         }
         .timeline-line {
-            position: absolute;
-            left: 0;
-            top: 16px;
-            bottom: -24px;
-            width: 2px;
-            background-color: #bfdbfe;
-            z-index: 0;
+            position: absolute; left: 0; top: 16px; bottom: -24px; width: 2px; background-color: #bfdbfe; z-index: 0;
         }
         .last-line { display: none; }
 
-        /* 按鈕與勾選框 */
         .map-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #eff6ff;
-            color: #2563eb;
-            padding: 4px 8px;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-decoration: none;
-            border: 1px solid #bfdbfe;
-            margin-left: 6px;
-            white-space: nowrap;
+            display: inline-flex; align-items: center; justify-content: center; background-color: #eff6ff; color: #2563eb;
+            padding: 4px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-decoration: none;
+            border: 1px solid #bfdbfe; margin-left: 6px; white-space: nowrap; transition: all 0.2s;
         }
         .map-btn:hover { background-color: #dbeafe; color: #1d4ed8; }
-        input[type="checkbox"] {
-            accent-color: #2563eb;
-            width: 1.25rem;
-            height: 1.25rem;
-            cursor: pointer;
-        }
+        input[type="checkbox"] { accent-color: #2563eb; width: 1.25rem; height: 1.25rem; cursor: pointer; }
 
-        /* 底部導航欄樣式 */
         .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding-bottom: 15px; 
-            z-index: 50;
+            position: absolute; bottom: 0; left: 0; right: 0; height: 75px; background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around;
+            align-items: center; padding-bottom: 15px; z-index: 50;
         }
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 33%;
-            height: 100%;
-            color: #94a3b8;
-            transition: color 0.2s;
-            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33%; height: 100%;
+            color: #94a3b8; transition: color 0.2s; cursor: pointer;
         }
         .nav-item.active { color: #2563eb; }
-        .nav-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 4px;
-            transition: transform 0.2s;
-        }
+        .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: transform 0.2s; }
         .nav-item.active .nav-icon { transform: scale(1.1); }
         .nav-label { font-size: 0.65rem; font-weight: 600; }
 
-        /* 骨架屏載入動畫 */
         .skeleton {
             background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-            background-size: 200% 100%;
-            animation: skeletonLoading 1.5s infinite;
+            background-size: 200% 100%; animation: skeletonLoading 1.5s infinite;
         }
         @keyframes skeletonLoading {
             0% { background-position: 200% 0; }
@@ -190,7 +113,7 @@
 
     <div class="app-container">
         
-        <!-- ================= 全局頂部標題 ================= -->
+        <!-- 全局頂部標題 -->
         <div class="bg-blue-600 pt-5 px-4 pb-3 flex-shrink-0 z-30 shadow-sm relative">
             <h1 class="text-center text-white font-black text-lg tracking-wider drop-shadow-sm flex justify-center items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -198,10 +121,9 @@
             </h1>
         </div>
 
-        <!-- ================= 視圖 1: 行程 (ITINERARY) ================= -->
+        <!-- 視圖 1: 行程 (ITINERARY) -->
         <div id="view-itinerary" class="view-content active">
             
-            <!-- 天數切換 Tab -->
             <div class="bg-blue-600 px-3 pb-3 shadow-md z-20 flex-shrink-0">
                 <div class="flex justify-between items-center bg-blue-700 rounded-xl p-1 day-tabs space-x-1">
                     <button onclick="switchDay('day1')" id="tab-day1" class="tab-btn day-tab-active flex-1 py-1.5 text-xs text-center rounded-lg transition-all duration-200">Day 1</button>
@@ -221,7 +143,6 @@
                     </div>
                     <h2 class="text-xl font-black mt-1">抵達東京・淺草</h2>
                     
-                    <!-- 天氣小工具區塊 (將由 JS 動態載入) -->
                     <div id="weather-day1" class="mt-4 bg-white/20 backdrop-blur-sm rounded-xl p-3 flex items-center justify-between border border-white/20 shadow-sm min-h-[70px]">
                         <div class="flex items-center w-full">
                             <div class="w-10 h-10 skeleton rounded-full mr-3"></div>
@@ -240,9 +161,23 @@
                             <div class="timeline-dot"></div>
                             <div class="flex items-start">
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">02:00</div>
-                                <div class="ml-2">
+                                <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm">機場接送上車</div>
-                                    <div class="text-[11px] text-gray-500 mt-0.5">新北市汐止區</div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">新北市汐止區出發</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-5 pb-5">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="flex items-start">
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">03:00</div>
+                                <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm">豆腐寄宿</div>
+                                    <div class="text-[11px] text-gray-500 mt-1 flex items-center flex-wrap gap-y-1">
+                                        嗨寵物們航站
+                                        <a href="https://www.google.com/maps/search/?api=1&query=嗨寵物們航站" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -254,8 +189,8 @@
                                 <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm">搭乘 TR866 航班</div>
                                     <div class="text-[11px] text-gray-500 mt-1 flex items-center flex-wrap gap-y-1">
-                                        桃園機場 (T2)
-                                        <a href="https://www.google.com/maps/search/?api=1&query=桃園國際機場第二航廈" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                        桃園機場 (T1)
+                                        <a href="https://www.google.com/maps/search/?api=1&query=桃園國際機場第一航廈" target="_blank" class="map-btn py-0.5 px-2">導航</a>
                                     </div>
                                 </div>
                             </div>
@@ -292,9 +227,23 @@
                             <div class="flex items-start">
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">14:30</div>
                                 <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm">大黑家 本店</div>
+                                    <div class="text-[11px] text-gray-500 mt-1 flex items-center flex-wrap gap-y-1">
+                                        午餐吃百年老店天婦羅
+                                        <a href="https://www.google.com/maps/search/?api=1&query=大黑家+天婦羅+本店+淺草" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-5 pb-5">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="flex items-start">
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">15:30</div>
+                                <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm">淺草寺與雷門</div>
                                     <div class="text-[11px] text-gray-500 mt-1 flex items-center flex-wrap gap-y-1">
-                                        逛街、吃小吃、參拜
+                                        吃飽後逛街、參拜
                                         <a href="https://www.google.com/maps/search/?api=1&query=淺草寺" target="_blank" class="map-btn py-0.5 px-2">地圖</a>
                                     </div>
                                 </div>
@@ -396,11 +345,22 @@
                                                 <a href="https://www.google.com/maps/search/?api=1&query=牛かつもと村+秋葉原店" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
                                             </div>
                                             <div class="flex justify-between items-center">
-                                                <span class="font-bold">炸牛排 京都勝牛 友都八喜Akiba店</span>
-                                                <a href="https://www.google.com/maps/search/?api=1&query=炸牛排+京都勝牛+友都八喜Akiba店+秋葉原" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
+                                                <span class="font-bold">炸牛排 京都勝牛</span>
+                                                <a href="https://www.google.com/maps/search/?api=1&query=京都勝牛+友都八喜Akiba店" target="_blank" class="map-btn m-0 bg-white py-0.5 px-2 border-gray-200">導航</a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-5 pb-6">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="flex items-start">
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">下午</div>
+                                <div class="ml-2">
+                                    <div class="font-bold text-gray-800 text-sm">秋葉原自由活動</div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">繼續在秋葉原血拼或探索周邊區域</div>
                                 </div>
                             </div>
                         </div>
@@ -408,10 +368,13 @@
                             <div class="timeline-line last-line"></div>
                             <div class="timeline-dot"></div>
                             <div class="flex items-start">
-                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">下午</div>
-                                <div class="ml-2">
-                                    <div class="font-bold text-gray-800 text-sm">自由時間</div>
-                                    <div class="text-[11px] text-gray-500 mt-0.5">繼續血拼或探索周邊區域</div>
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">18:30</div>
+                                <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm flex items-center flex-wrap gap-y-1">
+                                        晴空塔 (Skytree)
+                                        <a href="https://www.google.com/maps/search/?api=1&query=東京晴空塔" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                    </div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">眺望夜景、逛晴空街道商場</div>
                                 </div>
                             </div>
                         </div>
@@ -422,16 +385,36 @@
                 <div class="bg-blue-50 p-4 border-t border-blue-100 mt-auto shrink-0 mx-4 mb-4 rounded-xl">
                     <h3 class="text-blue-800 font-bold text-xs mb-2 flex items-center">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                        飯店 ➔ 秋葉原 交通
+                        交通建議
                     </h3>
-                    <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
-                        <div class="flex items-start">
-                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
-                            <div class="pb-2">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                    <div class="space-y-2">
+                        <!-- 去程 -->
+                        <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
+                            <div class="font-bold text-gray-700 mb-1 border-b pb-1">飯店 ➔ 秋葉原</div>
+                            <div class="flex items-start mt-1.5">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
+                                <div class="pb-2">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div></div>
+                                <div class="pb-1">末廣町站 <span class="text-[9px] text-gray-500">➔ 步行抵達</span></div>
+                            </div>
                         </div>
-                        <div class="flex items-start">
-                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div></div>
-                            <div class="pb-1">末廣町站 <span class="text-[9px] text-gray-500">➔ 步行約 5 分鐘抵達</span></div>
+                        <!-- 晚上 -->
+                        <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
+                            <div class="font-bold text-gray-700 mb-1 border-b pb-1">秋葉原 ➔ 晴空塔</div>
+                            <div class="flex items-start mt-1.5">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-orange-500 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
+                                <div class="pb-1">秋葉原站 <span class="text-[9px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">JR總武線</span></div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-white border border-rose-500 rounded-full z-10"></div><div class="w-0.5 h-6 bg-rose-300"></div></div>
+                                <div class="pb-1">淺草橋站 <span class="text-[9px] text-white bg-rose-500 px-1.5 py-0.5 rounded ml-1">淺草線(轉乘)</span></div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div></div>
+                                <div class="pb-0">押上站 <span class="text-[9px] text-gray-500">➔ 抵達晴空塔</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -480,12 +463,16 @@
                             </div>
                         </div>
                         <div class="relative pl-5 pb-6">
-                            <div class="timeline-line border-dashed"></div>
-                            <div class="timeline-dot border-gray-300 bg-gray-100"></div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot"></div>
                             <div class="flex items-start">
-                                <div class="w-12 text-gray-400 font-bold text-xs pt-1">白天</div>
-                                <div class="ml-2 mt-0.5">
-                                    <div class="text-[11px] text-gray-400">市區彈性逛街行程</div>
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">14:00</div>
+                                <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm flex items-center flex-wrap gap-y-1">
+                                        新宿 歌舞伎町
+                                        <a href="https://www.google.com/maps/search/?api=1&query=新宿歌舞伎町" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                    </div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">感受繁華街區、逛特色商店</div>
                                 </div>
                             </div>
                         </div>
@@ -535,6 +522,7 @@
                         交通轉乘指南
                     </h3>
                     <div class="space-y-2">
+                        <!-- 去程 -->
                         <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
                             <div class="font-bold text-gray-700 mb-1.5 border-b pb-1">出發 ➔ 築地市場</div>
                             <div class="flex items-start">
@@ -550,6 +538,23 @@
                                 <div class="pb-0">築地站 ➔ 步行即達</div>
                             </div>
                         </div>
+                        <!-- 中途轉乘 -->
+                        <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
+                            <div class="font-bold text-gray-700 mb-1.5 border-b pb-1">築地 ➔ 新宿 ➔ 澀谷</div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full"></div><div class="w-0.5 h-4 bg-slate-300"></div></div>
+                                <div class="pb-1">築地站 <span class="text-[9px] text-white bg-slate-400 px-1 py-0.5 rounded ml-1">日比谷線</span> 至銀座</div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-white border border-red-500 rounded-full z-10"></div><div class="w-0.5 h-4 bg-red-300"></div></div>
+                                <div class="pb-1">銀座站 <span class="text-[9px] text-white bg-red-500 px-1 py-0.5 rounded ml-1">丸之內線</span> 至新宿</div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-green-500 rounded-full z-10"></div></div>
+                                <div class="pb-0">新宿站 <span class="text-[9px] text-white bg-green-500 px-1 py-0.5 rounded ml-1">山手線</span> 往澀谷</div>
+                            </div>
+                        </div>
+                        <!-- 回程 -->
                         <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
                             <div class="font-bold text-gray-700 mb-1 border-b pb-1">回程 (澀谷 ➔ 飯店)</div>
                             <div class="text-gray-600 pt-0.5">
@@ -601,17 +606,33 @@
                             <ul class="text-[11px] text-gray-600 space-y-2.5">
                                 <li class="flex items-center justify-between border-b border-gray-50 pb-2">
                                     <span class="flex items-center"><span class="w-1 h-1 bg-blue-400 rounded-full mr-2"></span> 鎌倉站 (小町通/八幡宮)</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=鎌倉站" target="_blank" class="map-btn m-0">導航</a>
                                 </li>
                                 <li class="flex items-center justify-between border-b border-gray-50 pb-2">
                                     <span class="flex items-center"><span class="w-1 h-1 bg-blue-400 rounded-full mr-2"></span> 長谷站 (鎌倉大佛)</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=高德院+大佛" target="_blank" class="map-btn m-0">導航</a>
                                 </li>
                                 <li class="flex items-center justify-between border-b border-gray-50 pb-2">
                                     <span class="flex items-center"><span class="w-1 h-1 bg-blue-400 rounded-full mr-2"></span> 鎌倉高校前 (平交道)</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=鎌倉高校前車站" target="_blank" class="map-btn m-0">導航</a>
                                 </li>
                                 <li class="flex items-center justify-between">
                                     <span class="flex items-center"><span class="w-1 h-1 bg-blue-400 rounded-full mr-2"></span> 江之島 (夕陽/神社)</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=江之島" target="_blank" class="map-btn m-0">導航</a>
                                 </li>
                             </ul>
+                        </div>
+                        
+                        <!-- 雨天備案 -->
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 w-full shadow-sm text-left mt-3">
+                            <h4 class="font-bold text-blue-800 text-xs mb-1 flex items-center">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                若遇雨天或天氣不佳
+                            </h4>
+                            <div class="text-[11px] text-gray-600 flex items-center justify-between">
+                                <span>備用候補行程：<strong class="text-gray-800">明治神宮</strong></span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=明治神宮" target="_blank" class="map-btn m-0 py-0.5">導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -671,8 +692,22 @@
                             <div class="flex items-start">
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">10:00</div>
                                 <div class="ml-2 w-full">
-                                    <div class="font-bold text-gray-800 text-sm">退房 & 寄放行李</div>
-                                    <div class="text-[11px] text-gray-500 mt-0.5">白天自由時間，周邊採買</div>
+                                    <div class="font-bold text-gray-800 text-sm">退房 & 行李處理</div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">建議將行李帶至京成上野站寄放</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-5 pb-6">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="flex items-start">
+                                <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">10:30</div>
+                                <div class="ml-2 w-full pr-2">
+                                    <div class="font-bold text-gray-800 text-sm flex items-center flex-wrap gap-y-1">
+                                        阿美橫町 (上野)
+                                        <a href="https://www.google.com/maps/search/?api=1&query=阿美橫町" target="_blank" class="map-btn py-0.5 px-2">導航</a>
+                                    </div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5">白天自由時間，最後藥妝與零食採買</div>
                                 </div>
                             </div>
                         </div>
@@ -682,7 +717,7 @@
                             <div class="flex items-start">
                                 <div class="w-12 text-blue-600 font-bold text-[15px] pt-0.5">17:00</div>
                                 <div class="ml-2 w-full">
-                                    <div class="font-bold text-gray-800 text-sm">飯店領取行李出發</div>
+                                    <div class="font-bold text-gray-800 text-sm">上野站領取行李出發</div>
                                 </div>
                             </div>
                         </div>
@@ -694,6 +729,7 @@
                                 <div class="ml-2 w-full pr-2">
                                     <div class="font-bold text-gray-800 text-sm flex items-center flex-wrap gap-y-1">
                                         準備報到
+                                        <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場" target="_blank" class="map-btn py-0.5 px-2">機場地圖</a>
                                     </div>
                                     <div class="text-[11px] text-gray-500 mt-0.5">成田國際機場 T1</div>
                                 </div>
@@ -717,20 +753,16 @@
                 <div class="bg-blue-50 p-4 border-t border-blue-100 mt-auto shrink-0 mx-4 mb-4 rounded-xl">
                     <h3 class="text-blue-800 font-bold text-xs mb-2 flex items-center">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                        飯店 ➔ 成田機場
+                        上野 ➔ 成田機場
                     </h3>
                     <div class="bg-white rounded-lg p-2 shadow-sm border border-blue-50 text-[11px]">
                         <div class="flex items-start">
-                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div><div class="w-0.5 h-6 bg-orange-300"></div></div>
-                            <div class="pb-1">田原町站 <span class="text-[9px] text-white bg-orange-500 px-1.5 py-0.5 rounded ml-1">銀座線</span></div>
+                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-blue-800 rounded-full z-10"></div><div class="w-0.5 h-6 bg-blue-300"></div></div>
+                            <div class="pb-1">京成上野站 <span class="text-[9px] text-white bg-blue-800 px-1.5 py-0.5 rounded ml-1">Keisei Skyliner</span></div>
                         </div>
                         <div class="flex items-start">
-                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-white border border-orange-500 rounded-full z-10"></div><div class="w-0.5 h-6 bg-blue-300"></div></div>
-                            <div class="pb-1">淺草站 <span class="text-[9px] text-white bg-blue-500 px-1.5 py-0.5 rounded ml-1">都營淺草線直通(站外轉乘)</span></div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-blue-600 rounded-full z-10"></div></div>
-                            <div class="pb-0">成田機場 T1 ➔ 報到掛行李</div>
+                            <div class="flex flex-col items-center mr-2 mt-0.5"><div class="w-2 h-2 bg-gray-400 rounded-full z-10"></div></div>
+                            <div class="pb-0">成田機場 T1 ➔ 直達報到 (約41分)</div>
                         </div>
                     </div>
                 </div>
